@@ -9,6 +9,7 @@ fn main() {
 
     println!("Provider URL: {}", provider_url);
     // Parse CLI arguments
+
     // Execute API req based on CLI arguments
     // Return resp to client
 }
