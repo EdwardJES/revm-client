@@ -2,6 +2,7 @@
 #[derive(Debug)]
 pub enum Command {
     EstimateGas,
+    BlockNumber,
     UnkownCommand
 }
 
@@ -18,13 +19,14 @@ pub fn parse_arguments(args: &[String]) -> Command {
 
 fn generate_command(arg : &str) -> Option<Command> {
     match arg {
-        "estimateGas" => Some(Command::EstimateGas),
+        "estimategas" => Some(Command::EstimateGas),
+        "blocknumber" => Some(Command::BlockNumber),
         _=> None
     }
 }
 
 #[test]
 fn test_parse_arguments() {
-    assert_eq!(generate_command("estimateGas"), Some(Command::EstimateGas));
+    assert_eq!(generate_command("estimategas"), Some(Command::EstimateGas));
     assert_eq!(generate_command("").is_none(), true);
 }

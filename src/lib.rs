@@ -19,6 +19,7 @@ impl Client {
     fn parse_command(self, command : parser::Command) {
         match command  {
              parser::Command::EstimateGas => api::ethrpc::estimate_gas(),
+             parser::Command::BlockNumber => api::ethrpc::block_number(),
              parser::Command::UnkownCommand => {
                 println!("REVM-Client: recieved unkown command. Please enter a valid command")
              }
