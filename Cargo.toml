@@ -12,3 +12,4 @@ text-colorizer= "1.0"
 reqwest = { version = "0.11.1", features = ["json"] }
 serde_json = "1.0"
 tokio = { version = "1", features = ["full"] }
+serde = { version = "1.0", features = ["derive"] }

@@ -1,9 +1,18 @@
 mod api;
 mod parser;
 use reqwest::Client;
-use serde_json::Value;
+use serde::{Deserialize, Serialize};
+use serde_json::{from_str, Value};
+use std::{error, i64};
 use text_colorizer::Colorize;
 use url::Url;
+
+#[derive(Serialize, Deserialize)]
+struct RPCResponse {
+    id: u32,
+    jsonrpc: String,
+    result: Value,
+}
 
 #[derive(Debug)]
 pub struct REVMClient {
@@ -31,8 +40,17 @@ impl REVMClient {
             parser::Command::EstimateGas => api::ethrpc::estimate_gas(),
             parser::Command::BlockNumber => {
                 match self.execute_request(api::ethrpc::block_number()) {
-                    Ok(val) => println!("{}:{:?}","Blocknumber".green(), val),
-                    Err(err) => eprint!("{:?}", err),
+                    Ok(rpc_response) => match rpc_response.result {
+                        Value::String(val) => {
+                            println!(
+                                "{}: {:?}",
+                                "Blocknumber".green(),
+                                i64::from_str_radix(&val[2..], 16)
+                            )
+                        }
+                        _ => (),
+                    },
+                    Err(err) => eprint!("{}: {:?}", "Blocknumber".red(), err),
                 };
             }
             parser::Command::Usage => self.print_usage(),
@@ -43,7 +61,7 @@ impl REVMClient {
     }
 
     #[tokio::main]
-    async fn execute_request(self, json: String) -> Result<Value, Box<dyn std::error::Error>> {
+    async fn execute_request(self, json: String) -> Result<RPCResponse, Box<dyn error::Error>> {
         let res = self
             .client
             .post(self.provider_url)
@@ -52,7 +70,8 @@ impl REVMClient {
             .send()
             .await?;
         let res_text = res.text().await?;
-        let res_json: Value = serde_json::from_str(&res_text.to_string())?;
+        println!("{}", res_text);
+        let res_json: RPCResponse = from_str(&res_text)?;
 
         Ok(res_json)
     }
