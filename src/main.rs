@@ -1,14 +1,14 @@
 use dotenv::dotenv;
-use revm_client::Client;
+use revm_client::REVMClient;
 use std::env;
-pub use url::Url;
+use url::Url;
 
 fn main() {
     // Instantiate client with RPC url from env
     dotenv().ok();
     let raw_url = env::var("PROVIDER_URL").expect("ERROR: provider URL not found");
     let provider_url = Url::parse(&raw_url).expect("Failed to parse provider URL");
-    let client = Client::new(provider_url);
+    let client = REVMClient::new(provider_url);
     println!("{:#?}", client);
 
     // Parse CLI arguments
