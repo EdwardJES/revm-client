@@ -34,8 +34,10 @@ impl Client {
     }
 
     fn print_usage(self) {
-        println!("\n{} - execute RPC calls to the an EVM JSON interface \n", "EVM-Client".green());
-        println!("Supported calls");
+        println!("\n{} - execute RPC calls to the EVM JSON interface \n", "EVM-Client".green());
+        println!("Supported calls:");
+        println!("----------------");
         println!("{}: Get the latest block number", "blocknumber".magenta());
+        println!("{}: Estimate gas for an eth call", "estimategas".magenta());
     }   
 }

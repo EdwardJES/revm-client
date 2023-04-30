@@ -38,6 +38,7 @@ fn test_parse_arguments() {
     // String is Vec<T>, ptr, len, cap (for modifying)
     // &str is T  ptr, len (viewing)
     assert_eq!(generate_command(&["estimategas".to_string(), "eth_call".to_string()]), Some(Command::EstimateGas));
+    assert_eq!(generate_command(&["estimategas".to_string()]), None);
     assert_eq!(generate_command(&["blocknumber".to_string()]), Some(Command::BlockNumber));
     assert_eq!(generate_command(&["".to_string()]), Some(Command::UnkownCommand));
 }
