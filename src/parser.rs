@@ -19,7 +19,7 @@ fn generate_command(args: &[String]) -> Option<Command> {
         "estimategas" => {
             if args.len() < 2 {
                 eprintln!(
-                    "{}: estimategas requires two arguments: {}, {} ",
+                    "{}: estimategas requires two arguments: <{}>, <{}> ",
                     "ERROR".bright_red(),
                     "command".blue(),
                     "eth_call".blue()

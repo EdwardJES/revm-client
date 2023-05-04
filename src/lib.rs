@@ -7,6 +7,9 @@ use std::{error, i64};
 use text_colorizer::Colorize;
 use url::Url;
 
+// TODO:
+// impl estimate_gas
+
 #[derive(Serialize, Deserialize)]
 struct RPCResponse {
     id: u32,
@@ -42,8 +45,9 @@ impl REVMClient {
                 match self.execute_request(api::ethrpc::block_number()) {
                     Ok(rpc_response) => match rpc_response.result {
                         Value::String(val) => {
+                            // val[2..] trim 0x
                             println!(
-                                "{}: {:?}",
+                                "{} result: {:?}",
                                 "Blocknumber".green(),
                                 i64::from_str_radix(&val[2..], 16)
                             )
